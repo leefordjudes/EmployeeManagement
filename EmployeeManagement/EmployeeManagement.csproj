@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pdf\" />
     <Folder Include="wwwroot\Pdf\" />
   </ItemGroup>
 
