@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace EmployeeManagement.Controllers
 {
@@ -112,12 +113,15 @@ namespace EmployeeManagement.Controllers
             if(ModelState.IsValid)
             {
                 string uniqueFileName = null;
-                if (model.Photo != null)
+                if (model.Photos != null && model.Photos.Count>0)
                 {
+                    foreach (IFormFile photo in model.Photos)
+                    { 
                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                   uniqueFileName = Guid.NewGuid().ToString()+"_"+model.Photo.FileName;
+                   uniqueFileName = Guid.NewGuid().ToString()+"_"+photo.FileName;
                    string filePath=Path.Combine(uploadsFolder, uniqueFileName);
-                   model.Photo.CopyTo(new FileStream(filePath,FileMode.Create));
+                   photo.CopyTo(new FileStream(filePath,FileMode.Create));
+                    }
                 }
                 Employee newEmployee = new Employee {
                     Name = model.Name,
