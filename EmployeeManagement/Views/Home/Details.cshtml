@@ -17,7 +17,7 @@
                 <h4>Department: @Model.Employee.Department</h4>
             </div>
             <div class="card-footer text-center">
-                <a href="#" class="btn btn-primary">Back</a>
+                <a asp-action="index" asp-controller="home" class="btn btn-primary">Back</a>
                 <a asp-action="edit" asp-controller="home"
                     asp-route-id="@Model.Employee.Id" class="btn btn-primary">Edit</a>
                 <a href="#" class="btn btn-danger">Delete</a>
