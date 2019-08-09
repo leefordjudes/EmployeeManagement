@@ -1,11 +1,11 @@
 ﻿using EmployeeManagement.Models;
-using Microsoft.AspNetCore.Mvc;
 using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
 namespace EmployeeManagement.Controllers
@@ -84,8 +84,14 @@ namespace EmployeeManagement.Controllers
         [Route("{id?}")]
         public ViewResult Details(int? id)
         {
+            Employee employee = _employeeRepository.GetEmployee(id);
+            if (employee == null)
+            {
+                Response.StatusCode = 404;
+                return View("EmployeeNotFound",id);
+            }
             //id = 1;
-            Employee model = _employeeRepository.GetEmployee(id??1);
+            Employee model = employee;//_employeeRepository.GetEmployee(id??1);
             if (model.PhotoPath == null)
             { model.PhotoPath = "/images/Jeep.webp"; }
             else
