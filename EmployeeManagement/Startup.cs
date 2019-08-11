@@ -36,12 +36,15 @@ namespace EmployeeManagement
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //ExceptionHandlerOptions exceptionHandlerOptions = new ExceptionHandlerOptions();
+            //exceptionHandlerOptions.ExceptionHandler("/Error");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseExceptionHandler("/Error");
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
             app.UseStaticFiles();

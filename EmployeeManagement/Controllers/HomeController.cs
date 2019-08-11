@@ -84,6 +84,7 @@ namespace EmployeeManagement.Controllers
         [Route("{id?}")]
         public ViewResult Details(int? id)
         {
+            
             Employee employee = _employeeRepository.GetEmployee(id);
             if (employee == null)
             {
@@ -111,7 +112,8 @@ namespace EmployeeManagement.Controllers
         [HttpGet]
         public ViewResult Create()
         {
-            return View();
+            throw new Exception("User Exception from details");
+            //return View();
         }
         [HttpPost]
         public IActionResult Create(EmployeeCreateViewModel model)
