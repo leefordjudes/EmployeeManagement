@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeManagement.Controllers
 {
@@ -15,12 +16,15 @@ namespace EmployeeManagement.Controllers
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly ILogger logger;
 
         public HomeController(IEmployeeRepository employeeRepository,
-            IHostingEnvironment hostingEnvironment)
+                              IHostingEnvironment hostingEnvironment,
+                              ILogger<HomeController> logger)
         {
             _employeeRepository = employeeRepository;
             this.hostingEnvironment = hostingEnvironment;
+            this.logger = logger;
         }
         [Route("~/Home")]
         [Route("~/")]
@@ -112,8 +116,15 @@ namespace EmployeeManagement.Controllers
         [HttpGet]
         public ViewResult Create()
         {
-            throw new Exception("User Exception from details");
-            //return View();
+            //throw new Exception("User Exception from details");
+            logger.LogTrace("Trace Log");
+            logger.LogDebug("Debug Log");
+            logger.LogInformation("Information Log");
+            logger.LogWarning("Warning Log");
+            logger.LogCritical("Critical Log");
+            logger.LogError("Error Log");
+
+            return View();
         }
         [HttpPost]
         public IActionResult Create(EmployeeCreateViewModel model)

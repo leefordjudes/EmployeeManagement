@@ -12,6 +12,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using EmployeeManagement.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace EmployeeManagement
 {
@@ -28,6 +29,8 @@ namespace EmployeeManagement
         {
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(_iconfig.GetConnectionString("EmployeeDB")));
+            services.AddIdentity<IdentityUser,IdentityRole>()
+                    .AddEntityFrameworkStores<AppDbContext>();
             services.AddMvc().AddXmlSerializerFormatters();
             //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
@@ -48,9 +51,10 @@ namespace EmployeeManagement
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
             app.UseStaticFiles();
+            app.UseAuthentication();
             //app.UseMvcWithDefaultRoute();
             app.UseMvc(routes => {
-                routes.MapRoute("default","pragim/{controller=home}/{action=index}/{id?}");
+                routes.MapRoute("default","{controller=Home}/{action=Index}/{id?}");
             });
             //app.UseMvc();
             //app.Run(async (context) =>
