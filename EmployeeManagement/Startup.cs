@@ -29,9 +29,19 @@ namespace EmployeeManagement
         {
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(_iconfig.GetConnectionString("EmployeeDB")));
-            services.AddIdentity<IdentityUser,IdentityRole>()
-                    .AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<IdentityUser,IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 10;
+                options.Password.RequiredUniqueChars = 3;
+                options.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<AppDbContext>();
             services.AddMvc().AddXmlSerializerFormatters();
+            //services.Configure<IdentityOptions>(options=> 
+            //{
+            //    options.Password.RequiredLength = 10;
+            //    options.Password.RequiredUniqueChars = 3;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //});
             //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
         }
