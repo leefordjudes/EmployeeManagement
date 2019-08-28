@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeManagement.Controllers
 {
@@ -28,6 +29,7 @@ namespace EmployeeManagement.Controllers
         }
         [Route("~/Home")]
         [Route("~/")]
+        [AllowAnonymous]
         public ViewResult Index()
         {
             IEnumerable<Employee> employees = _employeeRepository.GetAllEmployees();
@@ -86,6 +88,7 @@ namespace EmployeeManagement.Controllers
             return View(model);
         }
         [Route("{id?}")]
+        [AllowAnonymous]
         public ViewResult Details(int? id)
         {
             
@@ -114,6 +117,7 @@ namespace EmployeeManagement.Controllers
             return View(homeDetailsViewModel);
         }
         [HttpGet]
+        [Authorize]
         public ViewResult Create()
         {
             //throw new Exception("User Exception from details");
@@ -127,6 +131,7 @@ namespace EmployeeManagement.Controllers
             return View();
         }
         [HttpPost]
+        [Authorize]
         public IActionResult Create(EmployeeCreateViewModel model)
         {
             if(ModelState.IsValid)
@@ -146,6 +151,7 @@ namespace EmployeeManagement.Controllers
             return View();
         }
         [HttpGet]
+        [Authorize]
         public ViewResult Edit(int id)
         {
             Employee emp = _employeeRepository.GetEmployee(id);
@@ -160,6 +166,7 @@ namespace EmployeeManagement.Controllers
             return View(employeeEditViewModel);
         }
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(EmployeeEditViewModel model)
         {
             if (ModelState.IsValid)

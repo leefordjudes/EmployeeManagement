@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using EmployeeManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace EmployeeManagement
 {
@@ -35,7 +37,12 @@ namespace EmployeeManagement
                 options.Password.RequiredUniqueChars = 3;
                 options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<AppDbContext>();
-            services.AddMvc().AddXmlSerializerFormatters();
+            services.AddMvc(options => {
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddXmlSerializerFormatters();
             //services.Configure<IdentityOptions>(options=> 
             //{
             //    options.Password.RequiredLength = 10;
